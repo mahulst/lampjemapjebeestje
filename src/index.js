@@ -17,7 +17,6 @@ function createMap(config) {
     base_layers = new ol.layer.Group({
         title: 'Base Layers',
         layers: [
-            new ol.layer.Tile({title: "Blank", type: 'base'}),
             new ol.layer.Tile({title: "OSM", type: 'base', source: new ol.source.OSM()}),
         ]
     });
@@ -37,8 +36,6 @@ function createMap(config) {
         view: new ol.View({
             center: (new ol.geom.Point([5.52579, 52.28488])).transform('EPSG:4326', 'EPSG:3857').getCoordinates(),
             zoom: 17,
-            minZoom: config.zoom_range[0],
-            maxZoom: config.zoom_range[1]
         })
     });
 
@@ -392,19 +389,6 @@ function createMap(config) {
         }
     });
 
-    config.layers.forEach(function (layer) {
-        var layerTile = new ol.layer.Tile({
-            title: layer.name,
-            visible: layer.visible,
-            source: new ol.source.XYZ({
-                url: 'tiles/' + layer.path + '/{z}/{x}/{y}.png'
-            }),
-            minZoom: config.zoom_range[0],
-            maxZoom: config.zoom_range[1]
-
-        });
-        overlay_layers.getLayers().push(layerTile);
-    });
 
     // The <canvas> element doesn't seem to get sized correctly
     // on page load, which causes vector element hover to break.

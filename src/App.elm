@@ -44,7 +44,6 @@ update msg model =
         ChooseColor ->
             ( model, chooseColor "lamp 1" )
 
-
         CallApi (Ok json) ->
             ( model, Cmd.none )
 
@@ -66,7 +65,8 @@ modal : Model -> Html Msg
 modal model =
     div [ class "modal" ]
         [ text "this is a modal"
-        ,  div [ onClick CloseDialog ] [text "close"]
+        , div [ onClick CloseDialog ] [text "close"]
+        , callForApi model
         ]
 
 noModal : Html Msg
@@ -74,7 +74,7 @@ noModal = div [] [ text "no modal" ]
 
 callForApi : Model -> Html Msg
 callForApi model =
-  div [onClick CallApi ] [ text "Call api" ]
+  div [onClick ChooseColor ] [ text "Call api" ]
 
 chooseColor : String -> Cmd Msg
 chooseColor lamp =
