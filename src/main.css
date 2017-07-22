@@ -1,9 +1,51 @@
 .modal {
   position: fixed;
-  height: 100%;
-  width: 100%;
-  left:0;
-  top: 0;
+  height: calc(100% - 80px);
+  width: calc(100% - 20px);
+  left: 10px;
+  top: 70px;
+  padding: 16px;
   z-index: 10;
   background-color: white;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal  > .header {
+  display: flex;
+  justify-content: flex-end;
+} 
+
+.modal .color-preview {
+  height: 50px;
+  background-color: grey;
+}
+
+.close {
+  font-size: 32px;
+}
+
+.fire {
+}
+.info {
+}
+.title {
+  flex-grow: 1;
+}
+
+.error {
+  color: red;
+}
+
+.nav {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px;
+  line-height: 20px;
+}
+#map {
+    height: calc(100% - 60px);
+    width: 100%;
+    position: fixed;
 }
