@@ -261,14 +261,11 @@ chooseColor lamp color =
         url =
             "http://kubernetes.strocamp.net:8888/zones/" ++ lamp ++ "/claim"
 
-        headers =
-            [ (Http.header "X-Auth-ApiKey" "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJDb2xvck15U0hBMjAxNyIsInN1YiI6IktleUZvclNsYWNrRGlzdHJpYnV0aW9uIiwibmJmIjoxNDk5NjE4ODU2LCJleHAiOjE1MzExNTQ4NTYsImlhdCI6MTQ5OTYxODg1NiwianRpIjoiaWQ0MiIsInR5cCI6Imh0dHBzOi8va3ViZXJuZXRlcy5zdHJvY2FtcC5uZXQifQ.KoJy4eYMt5o9opSRlXmnTOx0jyBVGhq1ksUMs5-PRsqug3Fp60tctZnavHQDxTeBe-xwGfV_4G_gc3uXUKCqdD58FMVa6KoAB4kP-Fn1i-93RNgKYONceZo_rplreLa3T7wAjtFWnlPG0RC4etfRjSU904LJFfH2yCGeXDKDmukZ07w98VxMYWlNVWZdK7C55N4eUwSh_eo89wgISxJpI9lNOg89ZCEXTcTBcwnlQRqwSObLZ1r8OVfTcKSfMxXX5sFD6RlP06c7TtsDjBMxQ9_fcdfh6d7l4VqMuMwUrENrmsNc8iO7ZnHfNQoIjiBQsqE5CHSxisV0AP6DoR_R9Uq91TiQCxstdJ2rgZOIPJO8IlFP7Xw5eOdA1pJlry9pUBftMdMhsDHimzcPrVJRHzYmwQ38NLSWs9uOf1DGX8iF8HeGrzw3oDEFJyqaeb1sEOAxBrPI9YCshpCxqse-sfN7WRtAb9zCqJSBe1R-hs0sxhexgjSS1s9GTD2Hp6icbcEFNV_8m8KbYVgX_B6yIAiDXyJadSH7cc60T40Ji34LBvCai_kts37jSNnWVa-FkTAxpN5_PqVTTmPYlmPPltAA-u4x78KVZDAiqlhSvB75LgS0Hxrn73QAlYcI4Gp5kXHO_PNjw1Ocv73LSKzg6ObbMMqnrCz-YIIBUKAY17s") ]
-
         request =
             Http.request
                 { method = "PUT"
                 , url = url
-                , headers = headers
+                , headers = []
                 , body = colorEncoder color |> Http.jsonBody
                 , timeout = Nothing
                 , expect = Http.expectJson decodeChooseColorResponse
