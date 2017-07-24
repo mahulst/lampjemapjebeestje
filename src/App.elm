@@ -4,7 +4,8 @@ import Html exposing (Html, text, div, img, input)
 import Html.Attributes as H exposing (src, class, type_)
 import Html.Events exposing (onClick, onInput)
 import Http exposing (Error)
-import Json.Decode exposing (Decoder, at, string)
+import Json.Decode exposing (Decoder, at, string, bool, float, nullable, list)
+import Json.Decode.Pipeline exposing (decode, required)
 import Http
 import Json.Encode
 import Material.Slider as Slider
@@ -12,6 +13,7 @@ import Material.Button as Button
 import Material.Options as Options
 import Material
 import Material.Icon as Icon
+import Debug
 
 
 ---- MODEL ----
@@ -23,6 +25,7 @@ type alias Model =
     , showingModal : Modals
     , color : Color
     , mdl : Material.Model
+    , zones : List Zone
     }
 
 
@@ -40,9 +43,65 @@ type alias Color =
     }
 
 
+type alias Coordinate =
+    { longitude : Float
+    , latitude : Float
+    }
+
+
+type alias Zone =
+    { name : String
+    , available : Bool
+    , colour : Maybe String
+    , coordinates : List Coordinate
+    , claimTicket : Maybe String
+    }
+
+
+zonesDecoder : Decoder (List Zone)
+zonesDecoder =
+    list zoneDecoder
+
+
+zoneDecoder : Decoder Zone
+zoneDecoder =
+    decode Zone
+        |> required "name" string
+        |> required "available" bool
+        |> required "colour" (nullable string)
+        |> required "coordinates" (list coordinateDecoder)
+        |> required "claimTicket" (nullable string)
+
+
+coordinateDecoder : Decoder Coordinate
+coordinateDecoder =
+    decode Coordinate
+        |> required "latitude" float
+        |> required "longitude" float
+
+
 init : ( Model, Cmd Msg )
 init =
-    ( { message = "", lamp = "", showingModal = None, color = { red = 50, blue = 50, green = 50 }, mdl = Material.model }, Cmd.none )
+    ( { message = ""
+      , lamp = ""
+      , showingModal = None
+      , color =
+            { red = 50
+            , blue = 50
+            , green = 50
+            }
+      , mdl = Material.model
+      , zones = []
+      }
+    , getZones
+    )
+
+
+getZones : Cmd Msg
+getZones =
+    Http.send
+        GetZones
+        (Http.get ("http://kubernetes.strocamp.net:8888/zones/") zonesDecoder)
 
 
 
@@ -55,6 +114,7 @@ type Msg
     | CloseDialog
     | ChooseColor
     | CallApi (Result Error String)
+    | GetZones (Result Error (List Zone))
     | UpdateRed Float
     | UpdateBlue Float
     | UpdateGreen Float
@@ -77,43 +137,44 @@ update msg model =
             ( { model | showingModal = None, message = "" }, Cmd.none )
 
         ChooseColor ->
-            ( model, chooseColor "test" model.color )
+            ( model, chooseColor "TestZone3" model.color )
 
         CallApi (Ok json) ->
             ( { model | showingModal = None, message = "" }, Cmd.none )
+
+        GetZones (Err _) ->
+            ( { model | showingModal = Info }, Cmd.none )
+
+        GetZones (Ok zones) ->
+            Debug.log ("sending")
+                ( { model | zones = zones }, setZones zones )
 
         CallApi (Err _) ->
             ( { model | message = "Could not claim this light, already claimed" }, Cmd.none )
 
         UpdateRed val ->
-            let
-                color =
-                    model.color
-
-                newColor =
-                    { color | red = val }
-            in
-                ( { model | color = newColor }, Cmd.none )
+            ( { model | color = (redUpdater val model.color) }, Cmd.none )
 
         UpdateBlue val ->
-            let
-                color =
-                    model.color
-
-                newColor =
-                    { color | blue = val }
-            in
-                ( { model | color = newColor }, Cmd.none )
+            ( { model | color = (blueUpdater val model.color) }, Cmd.none )
 
         UpdateGreen val ->
-            let
-                color =
-                    model.color
+            ( { model | color = (greenUpdater val model.color) }, Cmd.none )
 
-                newColor =
-                    { color | green = val }
-            in
-                ( { model | color = newColor }, Cmd.none )
+
+redUpdater : Float -> Color -> Color
+redUpdater val color =
+    { color | red = val }
+
+
+blueUpdater : Float -> Color -> Color
+blueUpdater val color =
+    { color | blue = val }
+
+
+greenUpdater : Float -> Color -> Color
+greenUpdater val color =
+    { color | green = val }
 
 
 
@@ -280,6 +341,9 @@ chooseColor lamp color =
 
 
 port openDialog : (String -> msg) -> Sub msg
+
+
+port setZones : List Zone -> Cmd msg
 
 
 
