@@ -3,3 +3,4 @@ node_js:
   - "6"
 before_install:
   - npm i -g create-elm-app
+  - npm i
