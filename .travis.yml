@@ -1,3 +1,4 @@
+sudo: required
 language: node_js
 node_js: 
   - "6"
@@ -6,3 +7,13 @@ before_install:
   - npm i
 script:
   - elm-app build
+after_success:
+- docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+- docker build -t cmsha-frontend .
+- docker push hugot/cmsha-frontend:latest
+services:
+- docker
+env:
+  global:
+  - secure: bfSLMCMdZPjGfEjO6Qd+WVSUPjvE27ZL04R3kQMzHXV2rJa34AH2T2AdAyuyAcLEh6xLDUB2+bq9Xh1BmMmhqTUZFnlWTR/blvnf61gDPtih99ndQi/s5y3uSF/ayNJ9qOxA2QnZWhoZezkFqzIu+sLAGZxdtXuRtDzTwv2jbeVTWumlyygHT0+xZlVT9sCkwem/D5qXeLgsV9m0NZSHU1RJPzUTudly/jDTejUksUZyMHIDCDHGfJvAXXyA4CdTrJyjlqDGT+h4tKqymowxGVt1mmkJOq+52mgxOqAC4kNWS/JIODKl3a4S3BPE2baDHZqclODuuvk7ErFzuS83tiGTSHOxYk6Q9jWAksSwQwomqvrSrMUFcn6IV3D40+Jtb5AIGDurf7OKk0Mu24TnKzXTaJKGSHN//VN4jDUN/aIxR4Ppy+aZS4NZlw6b+7ZaQwjadHUPCijJCdjEpl+L66bYS3lxyzliJsUzWqYeI4TeBPB7gg76gzDxzydQZcwOc+MO4GFAg5R4nMP8f3KzRUjCSqxevpQqVyu9wifhgy7LSntehKcbirC49DhmiD/akXucyYc0jjLYj/i52FnH45obf4Z6CaGSkjyMrqoOcUCKNafoWoxAlu1DR7QY/S2b1HZ1l1KKFJlefhN9gMp7rfvTme2cOXjz9tuZvuOxmj8=
+  - secure: exwia9Mx+NnE7LqpN0Nyn94OgbCoxOHpLIaWAczsQ9HFn4KWvXL0l5sTsIn8sKaH4ln0Sg7ZWpQ9VgZoatFy06SJJKYqweaNpf+CxIQ2jzsAs7XZYY8inq8kemd/TffBNyysv3hpB7w6SK0N9X+4tDG4nK9ujXbN40RkWPxTLHnhqms6OGDlIVatFoihHphfBvLLkhmnCJy1g+py6LUmZJ7zjHU1tF3pgQ7IesrDV4uGykL3tTHvIk8GWYkirFQFeX2OruJEEeF0tfymJEdI61IQ+LoTbd9PFGKL4MTNY33FZEaDJMwWQLLp8nW/5km6nAmfPih3jlVxhWzixcmHBZ0rx9nLMthJ9XURqGwZ8+vhFBMIp62Amri+mbrjm6jCXoIX8+q3+Lfr5UGGNNzjLhhezKfCWYBcAawi/OzL1kESk9914BojLnHL2aOUXc1XuLB2sbyri6tMHbsN5mn0Oh+5X//R2zuJHGjAR5vJya1C9hDRURzt7zodmgWPFCoWJLKzYmDJ4NxM16HhXX65hGCKnHM88gSD1Oc155e7OLXLHz3IM54dkzMAPZPWlwasFJfIMxnUotAv68r5W8jImqki+uQA8Xv0yKFzVE04qUsXw/4XnUZsVdgT8ymK8fspofykKkKqHJ710Gx1JlSgdTmGS/cF013VUy86A3uSqm0=
