@@ -4,3 +4,5 @@ node_js:
 before_install:
   - npm i -g create-elm-app
   - npm i
+script:
+  - elm-app build
