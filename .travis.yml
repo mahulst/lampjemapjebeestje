@@ -9,7 +9,7 @@ script:
 - elm-app build
 after_success:
 - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-- docker build -t cmsha-frontend .
+- docker build -t hugot/cmsha-frontend .
 - docker push hugot/cmsha-frontend:latest
 services:
 - docker
