@@ -401,26 +401,30 @@ timer timeLeft =
 
 playWithFlamethrowerButton : Model -> Int -> Html Msg
 playWithFlamethrowerButton model action =
-    Button.render Mdl
-        [ 0 ]
-        model.mdl
-        [ Button.raised
-        , Button.ripple
-        , Options.onClick (FireFlameThrower action)
+    div [ class "cmsha-btn" ]
+        [ Button.render Mdl
+            [ 0 ]
+            model.mdl
+            [ Button.raised
+            , Button.ripple
+            , Options.onClick (FireFlameThrower action)
+            ]
+            [ text ("Fire " ++ (toString action)) ]
         ]
-        [ text ("Fire " ++ (toString action)) ]
 
 
 claimFlamethrowerButton : Model -> Html Msg
 claimFlamethrowerButton model =
-    Button.render Mdl
-        [ 0 ]
-        model.mdl
-        [ Button.raised
-        , Button.ripple
-        , Options.onClick ClaimFlameThrower
+    div [ class "cmsha-btn" ]
+        [ Button.render Mdl
+            [ 0 ]
+            model.mdl
+            [ Button.raised
+            , Button.ripple
+            , Options.onClick ClaimFlameThrower
+            ]
+            [ text "Claim" ]
         ]
-        [ text "Claim" ]
 
 
 modalInfo : Html Msg
@@ -468,14 +472,16 @@ navbar fireIsActive =
 
 callApiButton : Model -> Html Msg
 callApiButton model =
-    Button.render Mdl
-        [ 0 ]
-        model.mdl
-        [ Button.raised
-        , Button.ripple
-        , Options.onClick ChooseColor
+    div [ class "cmsha-btn" ]
+        [ Button.render Mdl
+            [ 0 ]
+            model.mdl
+            [ Button.raised
+            , Button.ripple
+            , Options.onClick ChooseColor
+            ]
+            [ text "Set color" ]
         ]
-        [ text "Set color" ]
 
 
 decodeChooseColorResponse : Decoder String
