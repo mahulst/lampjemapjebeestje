@@ -14,11 +14,11 @@ createMap();
 function createMap() {
   var styleCache = {};
   var defaultStyle = new ol.style.Style({
-    fill: new ol.style.Fill({
-      color: [250,250,250,1]
-    }),
+    // fill: new ol.style.Fill({
+    //   color: [250,250,250,1]
+    // }),
     stroke: new ol.style.Stroke({
-      color: [220,220,220,1],
+      color: [0,0, 0,1],
       width: 1
     })
   });
@@ -89,8 +89,8 @@ function createMap() {
             weight: 1
           }),
           stroke: new ol.style.Stroke({
-            color: colour ,// + colour, // || 'ccc',
-            width: 1
+            color: [255,255, 255,1],
+            width: 2
           })
         });
         styleCache[name] = style;

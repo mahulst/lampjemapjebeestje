@@ -64,7 +64,7 @@ timeToClaimFlameThrower model =
             div [] [ text "claim", timer (round ((time - model.currentTime) / 1000)), claimFlamethrowerButton model ]
 
         Nothing ->
-            div [] [ text "no ticket" ]
+            div [] [ h1 [] [ text "Flame Towers" ], p [] [ text "When you're around the Flame Tower at X location, you automatically take part in the fire lottery. Every hour a guest will be chosen." ] ]
 
 
 timeToPlayWithFlameThrower : Model -> Html Msg
@@ -80,7 +80,7 @@ timeToPlayWithFlameThrower model =
                 ]
 
         Nothing ->
-            div [] [ text "no ticket" ]
+            div [] [ text "Can not fire flamethrower right now" ]
 
 
 timer : Int -> Html Msg
@@ -130,21 +130,32 @@ claimFlamethrowerButton model =
 modalInfo : Html Msg
 modalInfo =
     div []
-        [ h1 [] [ text "Info" ]
+        [ h1 [] [ text "ColourMySha Light Hacking" ]
         , p [] [ text "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " ]
         ]
 
 
 modalColorPicker : Model -> Html Msg
 modalColorPicker model =
-    div [ class "content" ]
-        [ preview model.color
-        , slider model.color.red UpdateRed "Red"
-        , slider model.color.blue UpdateBlue "Blue"
-        , slider model.color.green UpdateGreen "Green"
-        , errorMessage model.message
-        , callApiButton model
-        ]
+    let
+        zoneName =
+            case model.selectedZone of
+                Just n ->
+                    n
+
+                Nothing ->
+                    "<Not found>"
+    in
+        div [ class "content" ]
+            [ h1 [] [ text zoneName ]
+            , p [] [ text "Change the colour, using the sliders below. Your chosen colour will remain during 10 minutes." ]
+            , preview model.color
+            , slider model.color.red UpdateRed "Red"
+            , slider model.color.blue UpdateBlue "Blue"
+            , slider model.color.green UpdateGreen "Green"
+            , errorMessage model.message
+            , callApiButton model
+            ]
 
 
 errorMessage : String -> Html msg
