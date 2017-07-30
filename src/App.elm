@@ -1,6 +1,6 @@
 port module App exposing (..)
 
-import Html exposing (Html, text, div, img, input, span)
+import Html exposing (Html, text, div, img, input, span, node, a, h1, p)
 import Html.Attributes as H exposing (src, class, type_, classList)
 import Html.Events exposing (onClick, onInput)
 import Http exposing (Error)
@@ -339,7 +339,11 @@ modal model content =
             [ navbar fireIsActive
             , div [ class "modal" ]
                 [ div [ class "header" ]
-                    [ div [ onClick CloseDialog, class "close" ] [ Icon.i "close" ] ]
+                    [ div [ onClick CloseDialog, class "close" ]
+                        [ a []
+                            [ node "i" [ class "fa fa-close" ] [] ]
+                        ]
+                    ]
                 , content
                 ]
             ]
@@ -421,7 +425,10 @@ claimFlamethrowerButton model =
 
 modalInfo : Html Msg
 modalInfo =
-    div [] [ text "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " ]
+    div []
+        [ h1 [] [ text "Info" ]
+        , p [] [ text "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " ]
+        ]
 
 
 modalColorPicker : Model -> Html Msg
@@ -448,8 +455,14 @@ navbar : Bool -> Html Msg
 navbar fireIsActive =
     div [ class "nav" ]
         [ div [ class "title" ] [ text "ColourMySha" ]
-        , div [ classList [ ( "fire", True ), ( "active", fireIsActive ) ], onClick OpenFlameThrower ] [ Icon.i "warning" ]
-        , div [ class "info", onClick OpenInfo ] [ Icon.i "info" ]
+        , div [ classList [ ( "fire", True ), ( "active", fireIsActive ) ], onClick OpenFlameThrower ]
+            [ a [ H.href "#" ]
+                [ node "i" [ class "fa fa-fire" ] [] ]
+            ]
+        , div [ class "info", onClick OpenInfo ]
+            [ a []
+                [ node "i" [ class "fa fa-info" ] [] ]
+            ]
         ]
 
 
@@ -493,10 +506,6 @@ preview color =
         div
             [ class "color-preview", style ]
             []
-
-
-
---        div [ class "color-preview", style ] []
 
 
 slider : Float -> (Float -> Msg) -> String -> Html Msg
