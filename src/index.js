@@ -12,14 +12,29 @@ createMap();
 
 
 function createMap() {
-  //Holds the Polygon feature
-  var polyFeature = new ol.Feature({
-    geometry: new ol.geom.Polygon([
-      [
-      ]
-    ])
+  var styleCache = {};
+  var defaultStyle = new ol.style.Style({
+    fill: new ol.style.Fill({
+      color: [250,250,250,1]
+    }),
+    stroke: new ol.style.Stroke({
+      color: [220,220,220,1],
+      width: 1
+    })
   });
-  polyFeature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
+
+  function styleFunction (feature) {
+    var featureStyle =  styleCache[feature.get('name')];
+    if (featureStyle) {
+      return [featureStyle];
+    }
+    else {
+      return [defaultStyle];
+    }
+  }
+
+  //Holds the Polygon feature
+  var polyFeature = new ol.Feature({});
 
   var vectorSource = new ol.source.Vector({
     features: [
@@ -28,7 +43,8 @@ function createMap() {
   });
   //A vector layer to hold the features
   var vectorLayer = new ol.layer.Vector({
-    source: vectorSource
+    source: vectorSource,
+    style: styleFunction
   });
 
 
@@ -50,36 +66,44 @@ function createMap() {
         })
     });
 
-    map.on('singleclick', function (evt) {
-      var lonlat = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
+    map.on('singleclick', function (e) {
+      var lonlat = ol.proj.transform(e.coordinate, 'EPSG:3857', 'EPSG:4326');
+      map.forEachFeatureAtPixel(e.pixel, function (feature) {
+        var zoneName = feature.get('name');
 
-      openDialog();
+        openDialog(zoneName);
+      });
     });
 
-    function addFeature(coords, colour) {
+    function addFeature(coords, colour, name) {
       var feature = new ol.Feature({
         geometry: new ol.geom.Polygon([
           coords
         ])
       });
-      var style = new ol.style.Style({
-        fill: new ol.style.Fill({
-          color: '#' + colour || 'ccc',
-          weight: 1
-        }),
-        stroke: new ol.style.Stroke({
-          color: '#' + colour || 'ccc',
-          width: 1
-        })
-      });
-      feature.setStyle(style);
+      feature.set('name', name);
+      if(colour) {
+        colour = '#' + colour;
+        var style = new ol.style.Style({
+          fill: new ol.style.Fill({
+            color: colour ,// + colour, // || 'ccc',
+            weight: 1
+          }),
+          stroke: new ol.style.Stroke({
+            color: colour ,// + colour, // || 'ccc',
+            width: 1
+          })
+        });
+        styleCache[name] = style;
+
+      }
       feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
 
       vectorSource.addFeature(feature);
     }
 
-    function openDialog() {
-      app.ports.openDialog.send("TestZone3");
+    function openDialog(name) {
+      app.ports.openDialog.send(name);
     }
 
     setTimeout(function () {
@@ -88,7 +112,7 @@ function createMap() {
           var coords = zone.coordinates.map(function (c) {
             return [c.longitude, c.latitude]
           });
-          addFeature(coords, zone.colour);
+          addFeature(coords, zone.colour, zone.name);
         });
       });
 

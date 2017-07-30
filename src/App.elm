@@ -13,7 +13,6 @@ import Material.Button as Button
 import Material.Options as Options
 import Material
 import Material.Icon as Icon
-import Debug
 
 
 ---- MODEL ----
@@ -21,7 +20,7 @@ import Debug
 
 type alias Model =
     { message : String
-    , lamp : String
+    , selectedZone : Maybe String
     , showingModal : Modals
     , color : Color
     , mdl : Material.Model
@@ -83,7 +82,7 @@ coordinateDecoder =
 init : ( Model, Cmd Msg )
 init =
     ( { message = ""
-      , lamp = ""
+      , selectedZone = Nothing
       , showingModal = None
       , color =
             { red = 50
@@ -128,7 +127,7 @@ update msg model =
             Material.update Mdl msg_ model
 
         OpenColorPicker string ->
-            ( { model | lamp = string, showingModal = ColorPicker }, Cmd.none )
+            ( { model | selectedZone = Just string, showingModal = ColorPicker }, Cmd.none )
 
         OpenInfo ->
             ( { model | showingModal = Info }, Cmd.none )
@@ -137,7 +136,7 @@ update msg model =
             ( { model | showingModal = None, message = "" }, Cmd.none )
 
         ChooseColor ->
-            ( model, chooseColor "TestZone3" model.color )
+            ( model, chooseColor model.selectedZone model.color )
 
         CallApi (Ok json) ->
             ( { model | showingModal = None, message = "" }, Cmd.none )
@@ -146,8 +145,7 @@ update msg model =
             ( { model | showingModal = Info }, Cmd.none )
 
         GetZones (Ok zones) ->
-            Debug.log ("sending")
-                ( { model | zones = zones }, setZones zones )
+            ( { model | zones = zones }, setZones zones )
 
         CallApi (Err _) ->
             ( { model | message = "Could not claim this light, already claimed" }, Cmd.none )
@@ -316,24 +314,29 @@ colorEncoder color =
         Json.Encode.object attributes
 
 
-chooseColor : String -> Color -> Cmd Msg
-chooseColor lamp color =
-    let
-        url =
-            "http://kubernetes.strocamp.net:8888/zones/" ++ lamp ++ "/claim"
+chooseColor : Maybe String -> Color -> Cmd Msg
+chooseColor selectedZone color =
+    case selectedZone of
+        Just selectedZone ->
+            let
+                url =
+                    "http://kubernetes.strocamp.net:8888/zones/" ++ selectedZone ++ "/claim"
 
-        request =
-            Http.request
-                { method = "PUT"
-                , url = url
-                , headers = []
-                , body = colorEncoder color |> Http.jsonBody
-                , timeout = Nothing
-                , expect = Http.expectJson decodeChooseColorResponse
-                , withCredentials = False
-                }
-    in
-        Http.send CallApi request
+                request =
+                    Http.request
+                        { method = "PUT"
+                        , url = url
+                        , headers = []
+                        , body = colorEncoder color |> Http.jsonBody
+                        , timeout = Nothing
+                        , expect = Http.expectJson decodeChooseColorResponse
+                        , withCredentials = False
+                        }
+            in
+                Http.send CallApi request
+
+        Nothing ->
+            Cmd.none
 
 
 
