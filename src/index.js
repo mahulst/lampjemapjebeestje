@@ -67,7 +67,6 @@ function createMap() {
     });
 
     map.on('singleclick', function (e) {
-      var lonlat = ol.proj.transform(e.coordinate, 'EPSG:3857', 'EPSG:4326');
       map.forEachFeatureAtPixel(e.pixel, function (feature) {
         var zoneName = feature.get('name');
 

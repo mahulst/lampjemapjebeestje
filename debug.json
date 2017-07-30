@@ -1,0 +1,49 @@
+  [{
+    "name": "test",
+    "available": true,
+    "colour": null,
+    "coordinates": [],
+    "claimTicket": null
+  }, {
+    "name": "test2",
+    "available": true,
+    "colour": null,
+    "coordinates": [],
+    "claimTicket": null
+  }, {
+    "name": "TestZone3",
+    "available": true,
+    "colour": null,
+    "coordinates": [{
+      "longitude": 52.033199,
+      "latitude": 5.155046
+    }, {
+      "longitude": 52.033172,
+      "latitude": 5.154831
+    }, {
+      "longitude": 52.033117,
+      "latitude": 5.15459
+    }],
+    "claimTicket": null
+  }, {
+    "name": "TestZone4",
+    "available": true,
+    "colour": null,
+    "coordinates": [{
+      "longitude": 52.28201,
+      "latitude": 5.52166
+    }, {
+      "longitude": 52.28273,
+      "latitude": 5.52193
+    }, {
+      "longitude": 52.28346,
+      "latitude": 5.52229
+    }],
+    "claimTicket": null
+  }, {
+    "name": "FlameThrowers",
+    "available": true,
+    "colour": null,
+    "coordinates": [],
+    "claimTicket": "ABCDEFG"
+  }]
