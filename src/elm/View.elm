@@ -3,7 +3,7 @@ module View exposing (view)
 import Model exposing (..)
 import Update exposing (..)
 import Html exposing (Html, text, div, img, input, span, node, a, h1, p)
-import Html.Attributes as H exposing (src, class, type_, classList)
+import Html.Attributes as H exposing (src, class, type_, classList, title)
 import Html.Events exposing (onClick, onInput)
 import Material.Slider as Slider
 import Material.Button as Button
@@ -39,7 +39,7 @@ modal model content =
             [ navbar fireIsActive
             , div [ class "modal" ]
                 [ div [ class "header" ]
-                    [ div [ onClick CloseDialog, class "close" ]
+                    [ div [ onClick CloseDialog, class "close", title "Close" ]
                         [ a []
                             [ node "i" [ class "fa fa-close" ] [] ]
                         ]
@@ -171,11 +171,11 @@ navbar fireIsActive =
     div [ class "nav" ]
         [ div [ class "title" ] [ text "ColourMySha" ]
         , div [ classList [ ( "fire", True ), ( "active", fireIsActive ) ], onClick OpenFlameThrower ]
-            [ a [ H.href "#" ]
+            [ a [ H.href "#", title "Flame Tower" ]
                 [ node "i" [ class "fa fa-fire" ] [] ]
             ]
         , div [ class "info", onClick OpenInfo ]
-            [ a []
+            [ a [ H.href "#", title "Info" ]
                 [ node "i" [ class "fa fa-info" ] [] ]
             ]
         ]
@@ -223,9 +223,10 @@ preview color =
 slider : Float -> (Float -> Msg) -> String -> Html Msg
 slider float msg title =
     div []
-        [ text title
+        [ span [] [ text title ]
         , Slider.view
             [ Slider.onChange msg
             , Slider.value float
             ]
+        , div [] [ input [] [] ]
         ]
