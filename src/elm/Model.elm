@@ -29,6 +29,8 @@ type Modals
     = ColorPicker
     | Info
     | FlameThrower
+    | FlameThrowerTemp
+    | FlameThrowerTemp2
     | None
 
 

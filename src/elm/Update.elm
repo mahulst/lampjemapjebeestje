@@ -14,6 +14,8 @@ type Msg
     | Tick Time
     | OpenInfo
     | OpenFlameThrower
+    | OpenFlameThrowerClaim
+    | OpenFlameThrowerFire
     | CloseDialog
     | ChooseColor
     | ClaimFlameThrower
@@ -58,6 +60,12 @@ update msg model =
 
         OpenFlameThrower ->
             ( { model | showingModal = FlameThrower }, Cmd.none )
+
+        OpenFlameThrowerClaim ->
+            ( { model | showingModal = FlameThrowerTemp }, Cmd.none )
+
+        OpenFlameThrowerFire ->
+            ( { model | showingModal = FlameThrowerTemp2 }, Cmd.none )
 
         CloseDialog ->
             ( { model | showingModal = None, message = "" }, Cmd.none )
