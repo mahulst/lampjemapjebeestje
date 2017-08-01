@@ -19,7 +19,7 @@ function createMap() {
     // }),
     stroke: new ol.style.Stroke({
       color: [0,0, 0,1],
-      width: 1
+      width: 3
     })
   });
 
@@ -90,7 +90,7 @@ function createMap() {
           }),
           stroke: new ol.style.Stroke({
             color: [255,255, 255,1],
-            width: 2
+            width: 6
           })
         });
         styleCache[name] = style;
