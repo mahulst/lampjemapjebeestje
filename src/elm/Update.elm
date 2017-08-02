@@ -42,7 +42,7 @@ update msg model =
                     newTime > expirationTime
             in
                 if claimExpired then
-                    ( { model | currentTime = newTime, message = "", claimedFlameThrower = False, claimTicket = Nothing, claimTicketTime = Nothing }, Cmd.none )
+                    ( { model | currentTime = newTime, claimedFlameThrower = False, claimTicket = Nothing, claimTicketTime = Nothing }, Cmd.none )
                 else
                     ( { model | currentTime = newTime }, Cmd.none )
 

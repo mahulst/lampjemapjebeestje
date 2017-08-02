@@ -86,7 +86,12 @@ timeToClaimFlameThrower : Model -> Html Msg
 timeToClaimFlameThrower model =
     case model.claimTicketTime of
         Just time ->
-            div [] [ text "claim", timer (round ((time - model.currentTime) / 1000)), claimFlamethrowerButton model ]
+            div []
+                [ h1 [] [ text "ColourMySha Light Hacking" ]
+                , p [] [ text "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " ]
+                , timer (round ((time - model.currentTime) / 1000))
+                , claimFlamethrowerButton model
+                ]
 
         Nothing ->
             div [] [ h1 [] [ text "Flame Towers" ], p [] [ text "When you're around the Flame Tower at X location, you automatically take part in the fire lottery. Every hour a guest will be chosen." ] ]
@@ -97,11 +102,15 @@ timeToPlayWithFlameThrower model =
     case model.claimTicketTime of
         Just time ->
             div []
-                [ timer (round ((time - model.currentTime) / 1000))
-                , playWithFlamethrowerButton model 1
-                , playWithFlamethrowerButton model 2
-                , playWithFlamethrowerButton model 3
-                , playWithFlamethrowerButton model 4
+                [ h1 [] [ text "ColourMySha Light Hacking" ]
+                , p [] [ text "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " ]
+                , timer (round ((time - model.currentTime) / 1000))
+                , div [ class "fire-buttons" ]
+                    [ playWithFlamethrowerButton model 1
+                    , playWithFlamethrowerButton model 2
+                    , playWithFlamethrowerButton model 3
+                    , playWithFlamethrowerButton model 4
+                    ]
                 ]
 
         Nothing ->
@@ -126,7 +135,7 @@ timer timeLeft =
 
 playWithFlamethrowerButton : Model -> Int -> Html Msg
 playWithFlamethrowerButton model action =
-    div [ class "cmsha-btn" ]
+    div [ class "cmsha-btn fire" ]
         [ Button.render Mdl
             [ 0 ]
             model.mdl
@@ -171,24 +180,25 @@ modalColorPicker model =
                 Nothing ->
                     "<Not found>"
     in
-        div [ class "content" ]
-            [ h1 [] [ text zoneName ]
-            , p [] [ text "Change the colour, using the sliders below. Your chosen colour will remain during 10 minutes." ]
-            , preview model.color
-            , slider model.color.red UpdateRed "Red"
-            , slider model.color.blue UpdateBlue "Blue"
-            , slider model.color.green UpdateGreen "Green"
-            , errorMessage model.message
-            , callApiButton model
-            ]
+        if model.message == "" then
+            div [ class "content" ]
+                [ h1 [] [ text zoneName ]
+                , p [] [ text "Change the colour, using the sliders below. Your chosen colour will remain during 10 minutes." ]
+                , preview model.color
+                , div [ class "sliders" ]
+                    [ slider model.color.red UpdateRed "Red"
+                    , slider model.color.blue UpdateBlue "Blue"
+                    , slider model.color.green UpdateGreen "Green"
+                    ]
+                , callApiButton model
+                ]
+        else
+            errorMessage model.message
 
 
 errorMessage : String -> Html msg
 errorMessage errorMessage =
-    if errorMessage == "" then
-        div [] []
-    else
-        div [ class "error" ] [ text errorMessage ]
+    div [ class "error" ] [ text errorMessage ]
 
 
 navbar : Bool -> Html Msg
@@ -208,6 +218,10 @@ navbar fireIsActive =
                 [ node "i" [ class "fa fa-fire" ] [] ]
             ]
         , div [ class "info", onClick OpenInfo ]
+            [ a [ H.href "#", title "Info" ]
+                [ node "i" [ class "fa fa-info" ] [] ]
+            ]
+        , div [ class "info", onClick (OpenColorPicker "test") ]
             [ a [ H.href "#", title "Info" ]
                 [ node "i" [ class "fa fa-info" ] [] ]
             ]
@@ -261,5 +275,5 @@ slider float msg title =
             [ Slider.onChange msg
             , Slider.value float
             ]
-        , div [] [ input [] [] ]
+        , div [] [ input [ type_ "tel" ] [] ]
         ]
