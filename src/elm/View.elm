@@ -180,25 +180,26 @@ modalColorPicker model =
                 Nothing ->
                     "<Not found>"
     in
-        if model.message == "" then
-            div [ class "content" ]
-                [ h1 [] [ text zoneName ]
-                , p [] [ text "Change the colour, using the sliders below. Your chosen colour will remain during 10 minutes." ]
-                , preview model.color
-                , div [ class "sliders" ]
-                    [ slider model.color.red UpdateRed "Red"
-                    , slider model.color.blue UpdateBlue "Blue"
-                    , slider model.color.green UpdateGreen "Green"
-                    ]
-                , callApiButton model
+        div [ class "content" ]
+            [ h1 [] [ text zoneName ]
+            , p [] [ text "Change the colour, using the sliders below. Your chosen colour will remain during 10 minutes." ]
+            , preview model.color
+            , div [ class "sliders" ]
+                [ slider model.color.red UpdateRed "Red"
+                , slider model.color.blue UpdateBlue "Blue"
+                , slider model.color.green UpdateGreen "Green"
                 ]
-        else
-            errorMessage model.message
+            , errorMessage model.message
+            , callApiButton model
+            ]
 
 
 errorMessage : String -> Html msg
 errorMessage errorMessage =
-    div [ class "error" ] [ text errorMessage ]
+    if errorMessage == "" then
+        div [] []
+    else
+        div [ class "error" ] [ text errorMessage ]
 
 
 navbar : Bool -> Html Msg
