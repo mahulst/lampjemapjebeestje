@@ -86,7 +86,7 @@ timeToClaimFlameThrower : Model -> Html Msg
 timeToClaimFlameThrower model =
     case model.claimTicketTime of
         Just time ->
-            div []
+            div [ class "claim" ]
                 [ h1 [] [ text "ColourMySha Light Hacking" ]
                 , p [] [ text "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " ]
                 , timer (round ((time - model.currentTime) / 1000))
@@ -101,7 +101,7 @@ timeToPlayWithFlameThrower : Model -> Html Msg
 timeToPlayWithFlameThrower model =
     case model.claimTicketTime of
         Just time ->
-            div []
+            div [ class "play" ]
                 [ h1 [] [ text "ColourMySha Light Hacking" ]
                 , p [] [ text "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " ]
                 , timer (round ((time - model.currentTime) / 1000))

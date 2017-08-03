@@ -12,11 +12,40 @@ createMap();
 
 
 function createMap() {
+  var firetowers = [
+    [5.52579, 52.28488],
+    [5.52679, 52.28488]
+  ];
+
+  var iconStyle = new ol.style.Style({
+    image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+      anchor: [0.5, 158],
+      anchorXUnits: 'fraction',
+      anchorYUnits: 'pixels',
+      src: '/ft.png',
+      scale: 0.5
+    }))
+  });
+  var features = [];
+  firetowers.map(function (towerCoords) {
+    var iconFeature = new ol.Feature({
+      geometry:  new ol.geom.Point(ol.proj.transform(towerCoords, 'EPSG:4326', 'EPSG:3857'))
+    });
+    iconFeature.setStyle(iconStyle);
+    features.push(iconFeature);
+  });
+
+  var vectorSourceIcon = new ol.source.Vector({
+    features: features
+  });
+
+  var vectorLayerIcon = new ol.layer.Vector({
+    source: vectorSourceIcon
+  });
+
+
   var styleCache = {};
   var defaultStyle = new ol.style.Style({
-    // fill: new ol.style.Fill({
-    //   color: [250,250,250,1]
-    // }),
     stroke: new ol.style.Stroke({
       color: [0,0, 0,1],
       width: 3
@@ -52,7 +81,8 @@ function createMap() {
         title: 'Base Layers',
         layers: [
             new ol.layer.Tile({title: "OSM", type: 'base', source: new ol.source.OSM()}),
-          vectorLayer
+          vectorLayer,
+          vectorLayerIcon
         ]
     });
 
