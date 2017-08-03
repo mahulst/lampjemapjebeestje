@@ -166,6 +166,42 @@ greenUpdater val color =
     { color | green = val }
 
 
+redUpdaterInput : String -> Color -> Color
+redUpdaterInput val color =
+    let
+        int =
+            (Result.withDefault 0 (String.toFloat val))
+
+        float =
+            int / 255 * 100
+    in
+        { color | red = float }
+
+
+blueUpdaterInput : String -> Color -> Color
+blueUpdaterInput val color =
+    let
+        int =
+            (Result.withDefault 0 (String.toFloat val))
+
+        float =
+            int / 255 * 100
+    in
+        { color | blue = float }
+
+
+greenUpdaterInput : String -> Color -> Color
+greenUpdaterInput val color =
+    let
+        int =
+            (Result.withDefault 0 (String.toFloat val))
+
+        float =
+            int / 255 * 100
+    in
+        { color | green = float }
+
+
 zoneMapper : Zone -> List Zone -> List Zone
 zoneMapper zone list =
     let

@@ -185,9 +185,9 @@ modalColorPicker model =
             , p [] [ text "Change the colour, using the sliders below. Your chosen colour will remain during 10 minutes." ]
             , preview model.color
             , div [ class "sliders" ]
-                [ slider model.color.red UpdateRed "Red"
-                , slider model.color.blue UpdateBlue "Blue"
-                , slider model.color.green UpdateGreen "Green"
+                [ slider model.color.red UpdateRed InputRed "Red"
+                , slider model.color.blue UpdateBlue InputBlue "Blue"
+                , slider model.color.green UpdateGreen InputGreen "Green"
                 ]
             , errorMessage model.message
             , callApiButton model
@@ -268,13 +268,14 @@ preview color =
             []
 
 
-slider : Float -> (Float -> Msg) -> String -> Html Msg
-slider float msg title =
-    div []
+slider : Float -> (Float -> Msg) -> (String -> Msg) -> String -> Html Msg
+slider float sliderMsg inputMsg title =
+    div
+        []
         [ span [] [ text title ]
         , Slider.view
-            [ Slider.onChange msg
+            [ Slider.onChange sliderMsg
             , Slider.value float
             ]
-        , div [] [ input [ type_ "tel" ] [] ]
+        , div [] [ input [ type_ "tel", onInput inputMsg, H.value (toString (round (float * 2.55))) ] [] ]
         ]

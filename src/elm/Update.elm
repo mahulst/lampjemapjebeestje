@@ -27,6 +27,9 @@ type Msg
     | UpdateRed Float
     | UpdateBlue Float
     | UpdateGreen Float
+    | InputRed String
+    | InputBlue String
+    | InputGreen String
     | Mdl (Material.Msg Msg)
 
 
@@ -124,6 +127,15 @@ update msg model =
 
         UpdateGreen val ->
             ( { model | color = (greenUpdater val model.color) }, Cmd.none )
+
+        InputRed val ->
+            ( { model | color = (redUpdaterInput val model.color) }, Cmd.none )
+
+        InputBlue val ->
+            ( { model | color = (blueUpdaterInput val model.color) }, Cmd.none )
+
+        InputGreen val ->
+            ( { model | color = (greenUpdaterInput val model.color) }, Cmd.none )
 
 
 
