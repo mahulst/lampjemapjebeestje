@@ -103,7 +103,7 @@ timeToPlayWithFlameThrower model =
         Just time ->
             div [ class "play" ]
                 [ h1 [] [ text "ColourMySha Light Hacking" ]
-                , p [] [ text "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " ]
+                , p [] [ text "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." ]
                 , timer (round ((time - model.currentTime) / 1000))
                 , div [ class "fire-buttons" ]
                     [ playWithFlamethrowerButton model 1
