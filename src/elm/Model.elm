@@ -173,7 +173,7 @@ redUpdaterInput val color =
             (Result.withDefault 0 (String.toFloat val))
 
         float =
-            int / 255 * 100
+            clamp 0 100 (int / 255 * 100)
     in
         { color | red = float }
 
@@ -185,7 +185,7 @@ blueUpdaterInput val color =
             (Result.withDefault 0 (String.toFloat val))
 
         float =
-            int / 255 * 100
+            clamp 0 100 (int / 255 * 100)
     in
         { color | blue = float }
 
@@ -197,7 +197,7 @@ greenUpdaterInput val color =
             (Result.withDefault 0 (String.toFloat val))
 
         float =
-            int / 255 * 100
+            clamp 0 100 (int / 255 * 100)
     in
         { color | green = float }
 
