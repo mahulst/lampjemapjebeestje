@@ -8,8 +8,6 @@ import Html.Events exposing (onClick, onInput)
 import Material.Slider as Slider
 import Material.Button as Button
 import Material.Options as Options
-import Time
-
 
 ---- VIEW ----
 
@@ -25,12 +23,6 @@ view model =
 
         FlameThrower ->
             modal model (modalFire model)
-
-        FlameThrowerTemp ->
-            modal model (modalFireClaim model)
-
-        FlameThrowerTemp2 ->
-            modal model (modalFireFire model)
 
         None ->
             div [] [ navbar (isFireActive model) ]
@@ -62,24 +54,6 @@ modalFire model =
         timeToPlayWithFlameThrower model
     else
         timeToClaimFlameThrower model
-
-
-modalFireClaim : Model -> Html Msg
-modalFireClaim model =
-    let
-        temp =
-            { model | claimTicketTime = Just (model.currentTime + (Time.minute * 2) + (Time.second * 10)) }
-    in
-        timeToClaimFlameThrower temp
-
-
-modalFireFire : Model -> Html Msg
-modalFireFire model =
-    let
-        temp =
-            { model | claimTicketTime = Just (model.currentTime + (Time.minute * 20) + (Time.second * 33)) }
-    in
-        timeToPlayWithFlameThrower temp
 
 
 timeToClaimFlameThrower : Model -> Html Msg
@@ -210,19 +184,7 @@ navbar fireIsActive =
             [ a [ H.href "#", title "Flame Tower" ]
                 [ node "i" [ class "fa fa-fire" ] [] ]
             ]
-        , div [ classList [ ( "fire", True ), ( "active", True ) ], onClick OpenFlameThrowerClaim ]
-            [ a [ H.href "#", title "Flame Tower" ]
-                [ node "i" [ class "fa fa-fire" ] [] ]
-            ]
-        , div [ classList [ ( "fire", True ), ( "active", fireIsActive ) ], onClick OpenFlameThrowerFire ]
-            [ a [ H.href "#", title "Flame Tower" ]
-                [ node "i" [ class "fa fa-fire" ] [] ]
-            ]
         , div [ class "info", onClick OpenInfo ]
-            [ a [ H.href "#", title "Info" ]
-                [ node "i" [ class "fa fa-info" ] [] ]
-            ]
-        , div [ class "info", onClick (OpenColorPicker "test") ]
             [ a [ H.href "#", title "Info" ]
                 [ node "i" [ class "fa fa-info" ] [] ]
             ]
