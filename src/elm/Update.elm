@@ -148,7 +148,7 @@ chooseColor selectedZone color =
         Just selectedZone ->
             let
                 url =
-                    "http://kubernetes.strocamp.net:8888/zones/" ++ selectedZone ++ "/claim"
+                    "http://172.23.20.202:8888/zones/" ++ selectedZone ++ "/claim"
 
                 request =
                     Http.request
@@ -173,7 +173,7 @@ claimFlameThrower claimTicket =
         Just ticket ->
             let
                 url =
-                    "http://kubernetes.strocamp.net:8888/flamer/claim"
+                    "http://172.23.20.202:8888/flamer/claim"
 
                 request =
                     Http.request
@@ -198,7 +198,7 @@ fireFlameThrower claimTicket action =
         Just ticket ->
             let
                 url =
-                    "http://kubernetes.strocamp.net:8888/flamer/fire"
+                    "http://172.23.20.202:8888/flamer/fire"
 
                 request =
                     Http.request
@@ -221,4 +221,4 @@ getZones : Cmd Msg
 getZones =
     Http.send
         GetZones
-        (Http.get ("http://kubernetes.strocamp.net:8888/zones/") zonesDecoder)
+        (Http.get ("http://172.23.20.202:8888/zones/") zonesDecoder)
