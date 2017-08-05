@@ -190,7 +190,7 @@ fireFlameThrower claimTicket action =
         Just ticket ->
             let
                 url =
-                    "http://colourmysha.nl:8888/flamer/fire"
+                    "https://colourmysha.nl:8888/flamer/fire"
 
                 request =
                     Http.request
@@ -213,4 +213,4 @@ getZones : Cmd Msg
 getZones =
     Http.send
         GetZones
-        (Http.get ("http://colourmysha.nl:8888/zones/") zonesDecoder)
+        (Http.get ("https://colourmysha.nl:8888/zones/") zonesDecoder)
