@@ -13,8 +13,8 @@ createMap();
 
 function createMap() {
   var firetowers = [
-    [5.52579, 52.28488],
-    [5.52679, 52.28488]
+    [5.5625218, 52.283224],
+    [5.525769, 52.284546]
   ];
 
   var iconStyle = new ol.style.Style({
