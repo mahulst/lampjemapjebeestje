@@ -62,14 +62,14 @@ timeToClaimFlameThrower model =
     case model.claimTicketTime of
         Just time ->
             div [ class "claim" ]
-                [ h1 [] [ text "ColourMySha Light Hacking" ]
-                , p [] [ text "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " ]
+                [ h1 [] [ text "You can claim the Flame Tower" ]
+                , p [] [ text "You are a winner. You have 2 minutes to claim the Flame Tower." ]
                 , timer (round ((time - model.currentTime) / 1000))
                 , claimFlamethrowerButton model
                 ]
 
         Nothing ->
-            div [] [ h1 [] [ text "Flame Towers" ], p [] [ text "When you're around the Flame Tower at X location, you automatically take part in the fire lottery. Every hour a guest will be chosen." ] ]
+            div [] [ h1 [] [ text "Flame Tower Lottery" ], p [] [ text "Every hour a guest will be chosen to play with the Flame Tower. You will have 20 minutes to start the play. Once started, you may edit the Flame Tower for 5 minutes. Good luck!" ] ]
 
 
 timeToPlayWithFlameThrower : Model -> Html Msg
@@ -77,8 +77,8 @@ timeToPlayWithFlameThrower model =
     case model.claimTicketTime of
         Just time ->
             div [ class "play" ]
-                [ h1 [] [ text "ColourMySha Light Hacking" ]
-                , p [] [ text "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt." ]
+                [ h1 [] [ text "Congrats, the Flame Tower is yours!" ]
+                , p [] [ text "You’ve been chosen! You have 20 minutes to start the play." ]
                 , timer (round ((time - model.currentTime) / 1000))
                 , div [ class "fire-buttons" ]
                     [ playWithFlamethrowerButton model 1
@@ -140,7 +140,7 @@ modalInfo : Html Msg
 modalInfo =
     div []
         [ h1 [] [ text "ColourMySha Light Hacking" ]
-        , p [] [ text "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " ]
+        , p [] [ text "Welcome to ColourMySha. With this app you can play with the lights that are on the festival field. Click and try how it works. Eventually you will be chosen to hack the Flame Tower! Keep an eye on this app." ]
         ]
 
 
@@ -157,7 +157,7 @@ modalColorPicker model =
     in
         div [ class "content" ]
             [ h1 [] [ text zoneName ]
-            , p [] [ text "Change the colour, using the sliders below. Your chosen colour will remain during 10 minutes." ]
+            , p [] [ text "Use the sliders or RGB values to set the lamp colour." ]
             , preview model.color
             , div [ class "sliders" ]
                 [ slider model.color.red UpdateRed InputRed "Red"
