@@ -48,7 +48,7 @@ function createMap() {
   var defaultStyle = new ol.style.Style({
     stroke: new ol.style.Stroke({
       color: [0,0, 0,1],
-      width: 3
+      width: 8
     })
   });
 
@@ -106,11 +106,16 @@ function createMap() {
 
     function addFeature(coords, colour, name) {
       var feature = new ol.Feature({
-        geometry: new ol.geom.Polygon([
-          coords
-        ])
+        geometry: new ol.geom.LineString(coords),
+        name: 'Line'
       });
-      feature.set('name', name);
+      var features = [feature];
+      coords.map(function (coord) {
+        var f = new ol.Feature({
+          geometry: new ol.geom.Circle(coord, 0.00005)
+        });
+        features.push(f);
+      });
       if(colour) {
         colour = '#' + colour;
         var style = new ol.style.Style({
@@ -119,16 +124,19 @@ function createMap() {
             weight: 1
           }),
           stroke: new ol.style.Stroke({
-            color: [255,255, 255,1],
-            width: 6
+            color: colour,
+            width: 8
           })
         });
         styleCache[name] = style;
 
       }
-      feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
 
-      vectorSource.addFeature(feature);
+      features.map(function (f) {
+        f.getGeometry().transform('EPSG:4326', 'EPSG:3857');
+        f.set('name', name);
+        vectorSource.addFeature(f);
+      });
     }
 
     function openDialog(name) {

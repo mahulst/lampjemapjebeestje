@@ -37,7 +37,7 @@ modal model content =
     in
         div []
             [ navbar fireIsActive
-            , div [ classList [ ( "modal", True ), ( "play", model.claimedFlameThrower ), ( "claim", model.claimTicket /= Nothing && model.claimedFlameThrower == False ) ] ]
+            , div [ classList [ ( "modal", True ) ] ]
                 [ div [ class "header" ]
                     [ div [ onClick CloseDialog, class "close", title "Close" ]
                         [ a []
