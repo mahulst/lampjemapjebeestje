@@ -115,7 +115,7 @@ update msg model =
             in
                 case claimTicket of
                     Nothing ->
-                        ( { model | zones = zones, claimTicket = Nothing, claimTicketTime = Nothing }, setZones zones )
+                        ( { model | zones = zones, claimTicket = model.claimTicket, claimTicketTime = model.claimTicketTime }, setZones zones )
 
                     Just ticket ->
                         ( { model | zones = zones, claimTicket = claimTicket }, Cmd.batch [ setZones zones, Task.perform ClaimTicketTime Time.now ] )
