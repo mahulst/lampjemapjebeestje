@@ -41,11 +41,20 @@ update msg model =
 
                 claimExpired =
                     newTime > expirationTime
+
+                needsRefresh =
+                    rem (round (Time.inSeconds newTime)) 30 == 0
+
+                cmd =
+                    if needsRefresh then
+                        getZones
+                    else
+                        Cmd.none
             in
                 if claimExpired then
-                    ( { model | currentTime = newTime, claimedFlameThrower = False, claimTicket = Nothing, claimTicketTime = Nothing }, Cmd.none )
+                    ( { model | currentTime = newTime, claimedFlameThrower = False, claimTicket = Nothing, claimTicketTime = Nothing }, cmd )
                 else
-                    ( { model | currentTime = newTime }, Cmd.none )
+                    ( { model | currentTime = newTime }, cmd )
 
         ClaimTicketTime time ->
             ( { model | claimTicketTime = Just (time + (second * 120)) }, Cmd.none )

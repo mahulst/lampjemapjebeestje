@@ -145,7 +145,10 @@ function createMap() {
 
     setTimeout(function () {
       app.ports.setZones.subscribe(function(zones) {
+        vectorSource.clear();
         zones.map(function (zone) {
+
+
           var coords = zone.coordinates.map(function (c) {
             return [c.longitude, c.latitude]
           });
