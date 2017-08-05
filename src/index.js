@@ -13,7 +13,7 @@ createMap();
 
 function createMap() {
   var firetowers = [
-    [5.5625218, 52.283224],
+    [5.525218, 52.283224],
     [5.525769, 52.284546]
   ];
 
